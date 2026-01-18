@@ -1,0 +1,23 @@
+name: NozdorLauncher1
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+
+jobs:
+  build-mac:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Install Qt
+        run: brew install qt
+      - name: Configure CMake
+        run: cmake -S . -B build
+      - name: Build project
+        run: cmake --build build --config Release
+      - name: Upload macOS artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: NozdorLauncher-mac
+          path: build/NozdorLauncher.app
